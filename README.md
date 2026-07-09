@@ -1,1 +1,0 @@
-# Vinculos_Plataformas
