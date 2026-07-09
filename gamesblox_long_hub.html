@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMESBLOX&LONG - Enlaces Oficiales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --orange-gradient: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            --purple-gradient: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+            --glass-bg: rgba(20, 25, 45, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            
+            /* Colores de marca */
+            --yt-color: #FF0000;
+            --twitch-color: #9146FF;
+            --discord-color: #5865F2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Evitar scroll barras */
+            background-color: #000;
+            color: var(--text-color);
+        }
+
+        .split-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Lados Izquierdo y Derecho */
+        .side {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .side-left {
+            background: var(--orange-gradient);
+            box-shadow: inset -10px 0 30px rgba(0,0,0,0.2);
+        }
+
+        .side-right {
+            background: var(--purple-gradient);
+            box-shadow: inset 10px 0 30px rgba(0,0,0,0.2);
+        }
+
+        /* Lienzos para partículas */
+        .particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: auto; /* Permitir interacción con el ratón */
+            z-index: 1;
+        }
+
+        .character-img {
+            position: relative;
+            z-index: 2;
+            max-width: 80%;
+            max-height: 85vh;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+            transition: transform 0.5s ease;
+        }
+
+        /* Ajustes específicos para que miren hacia el centro (opcional, dependiendo de la imagen original) */
+        .character-img.cn9 {
+            /* Mover un poco hacia la izquierda para dejar espacio al panel */
+            transform: translateX(-5vw);
+        }
+        
+        .character-img.code {
+            /* Mover un poco hacia la derecha para dejar espacio al panel */
+            transform: translateX(5vw);
+        }
+
+        .side:hover .character-img {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .center-panel-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            pointer-events: none; /* Permite clickar los lados debajo */
+        }
+
+        .glass-panel {
+            pointer-events: auto; /* Rehabilita clicks dentro del panel */
+            width: 90%;
+            max-width: 450px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5),
+                        inset 0 0 0 1px rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: panelEntrance 1s ease-out forwards;
+        }
+
+        /* Borde luminoso decorativo en el panel */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #ff7e5f, transparent, #4a00e0);
+            z-index: -1;
+            border-radius: 26px;
+            opacity: 0.5;
+        }
+
+        @keyframes panelEntrance {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .panel-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .link-text {
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        /* Efectos Hover por plataforma */
+        .social-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+            z-index: 0;
+        }
+
+        .social-link:hover::after {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-link:hover .social-icon {
+            transform: scale(1.2);
+        }
+
+        /* Colores específicos de hover */
+        .link-yt-1:hover { border-color: var(--yt-color); box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
+        .link-yt-1:hover .social-icon { color: var(--yt-color); }
+        
+        .link-yt-2:hover { border-color: var(--yt-color); box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
+        .link-yt-2:hover .social-icon { color: var(--yt-color); }
+
+        .link-twitch:hover { border-color: var(--twitch-color); box-shadow: 0 5px 15px rgba(145,70,255,0.3); }
+        .link-twitch:hover .social-icon { color: var(--twitch-color); }
+
+        .link-discord:hover { border-color: var(--discord-color); box-shadow: 0 5px 15px rgba(88,101,242,0.3); }
+        .link-discord:hover .social-icon { color: var(--discord-color); }
+
+
+        @media (max-width: 768px) {
+            .split-container {
+                flex-direction: column;
+            }
+            .side {
+                width: 100%;
+                height: 50%;
+            }
+            .character-img.cn9 {
+                transform: translateX(0) translateY(-20%);
+                max-width: 40%;
+                opacity: 0.6; /* Hacerlos más transparentes para que el panel resalte */
+            }
+            .character-img.code {
+                transform: translateX(0) translateY(20%);
+                max-width: 40%;
+                opacity: 0.6;
+            }
+            .glass-panel {
+                background: rgba(10, 15, 30, 0.7); /* Fondo más oscuro en móvil para legibilidad */
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="split-container">
+        
+        <!-- Lado Izquierdo (Naranja) -->
+        <div class="side side-left">
+            <canvas id="particles-orange" class="particles-canvas"></canvas>
+            <!-- Imagen del personaje CN9 -->
+            <img src="CN9.png" alt="Personaje CN9" class="character-img cn9" onerror="this.src='https://placehold.co/400x600/ff7e5f/ffffff?text=CN9'">
+        </div>
+
+        <!-- Lado Derecho (Morado) -->
+        <div class="side side-right">
+            <canvas id="particles-purple" class="particles-canvas"></canvas>
+            <!-- Imagen del personaje CODE -->
+            <img src="CODE.png" alt="Personaje CODE" class="character-img code" onerror="this.src='https://placehold.co/400x600/8e2de2/ffffff?text=CODE'">
+        </div>
+
+        <!-- Panel Central (Rectángulo Glassmorphism) -->
+        <div class="center-panel-wrapper">
+            <div class="glass-panel">
+                <h1 class="panel-title">GAMESBLOX&LONG</h1>
+                
+                <div class="links-container">
+                    <!-- Enlace 1: YouTube -->
+                    <a href="https://youtube.com/@gamesblox1784?si=ao57_bPXzVf3K1QJ" target="_blank" class="social-link link-yt-1">
+                        <i class="fa-brands fa-youtube social-icon"></i>
+                        <span class="link-text">@gamesblox1784</span>
+                    </a>
+
+                    <!-- Enlace 2: YouTube -->
+                    <a href="https://youtube.com/@gameslongs?si=gS97UC6_7cm6w9q8" target="_blank" class="social-link link-yt-2">
+                        <i class="fa-brands fa-youtube social-icon"></i>
+                        <span class="link-text">@gameslongs</span>
+                    </a>
+
+                    <!-- Enlace 3: Twitch -->
+                    <a href="https://www.twitch.tv/gamesblox123" target="_blank" class="social-link link-twitch">
+                        <i class="fa-brands fa-twitch social-icon"></i>
+                        <span class="link-text">gamesblox123</span>
+                    </a>
+
+                    <!-- Enlace 4: Discord -->
+                    <a href="https://discord.gg/H4jcQWrKm" target="_blank" class="social-link link-discord">
+                        <i class="fa-brands fa-discord social-icon"></i>
+                        <span class="link-text">Únete al Servidor</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        class ParticleSystem {
+            constructor(canvasId, colorBase, isLeft) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.colorBase = colorBase;
+                this.isLeft = isLeft;
+                this.mouse = { x: null, y: null, radius: 100 };
+                
+                this.init();
+                
+                // Eventos
+                window.addEventListener('resize', () => this.resize());
+                this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+                this.canvas.addEventListener('mouseleave', () => {
+                    this.mouse.x = null;
+                    this.mouse.y = null;
+                });
+                
+                // Soporte táctil
+                this.canvas.addEventListener('touchmove', (e) => {
+                    if(e.touches.length > 0) {
+                        const rect = this.canvas.getBoundingClientRect();
+                        this.mouse.x = e.touches[0].clientX - rect.left;
+                        this.mouse.y = e.touches[0].clientY - rect.top;
+                    }
+                });
+                this.canvas.addEventListener('touchend', () => {
+                     this.mouse.x = null;
+                     this.mouse.y = null;
+                });
+
+                this.animate();
+            }
+
+            resize() {
+                // Ajustar al tamaño del contenedor padre (mitad de la pantalla en desktop)
+                const parent = this.canvas.parentElement;
+                this.canvas.width = parent.clientWidth;
+                this.canvas.height = parent.clientHeight;
+                this.initParticles();
+            }
+
+            init() {
+                this.resize();
+            }
+
+            initParticles() {
+                this.particles = [];
+                // Determinar cantidad de partículas según tamaño pantalla
+                let numberOfParticles = (this.canvas.width * this.canvas.height) / 8000;
+                
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 3) + 1;
+                    let x = Math.random() * (this.canvas.width - size * 2) + size;
+                    let y = Math.random() * (this.canvas.height - size * 2) + size;
+                    let speedX = (Math.random() * 1) - 0.5;
+                    let speedY = (Math.random() * 1) - 0.5;
+                    // Generar variaciones de opacidad
+                    let opacity = (Math.random() * 0.5) + 0.2;
+                    let color = `rgba(${this.colorBase}, ${opacity})`;
+
+                    this.particles.push(new Particle(this, x, y, speedX, speedY, size, color));
+                }
+            }
+
+            handleMouseMove(event) {
+                const rect = this.canvas.getBoundingClientRect();
+                this.mouse.x = event.clientX - rect.left;
+                this.mouse.y = event.clientY - rect.top;
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                for (let i = 0; i < this.particles.length; i++) {
+                    this.particles[i].update();
+                    this.particles[i].draw();
+                }
+                
+                // Conectar partículas cercanas con líneas sutiles
+                this.connectParticles();
+
+                requestAnimationFrame(() => this.animate());
+            }
+
+            connectParticles() {
+                let maxDistance = (this.canvas.width / 10) * (this.canvas.height / 10);
+                for (let a = 0; a < this.particles.length; a++) {
+                    for (let b = a; b < this.particles.length; b++) {
+                        let dx = this.particles[a].x - this.particles[b].x;
+                        let dy = this.particles[a].y - this.particles[b].y;
+                        let distance = dx * dx + dy * dy;
+
+                        if (distance < maxDistance) {
+                            let opacity = 1 - (distance / maxDistance);
+                            this.ctx.strokeStyle = `rgba(${this.colorBase}, ${opacity * 0.2})`;
+                            this.ctx.lineWidth = 1;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(this.particles[a].x, this.particles[a].y);
+                            this.ctx.lineTo(this.particles[b].x, this.particles[b].y);
+                            this.ctx.stroke();
+                        }
+                    }
+                }
+            }
+        }
+
+        class Particle {
+            constructor(system, x, y, speedX, speedY, size, color) {
+                this.system = system;
+                this.x = x;
+                this.y = y;
+                this.speedX = speedX;
+                this.speedY = speedY;
+                this.size = size;
+                this.color = color;
+                this.baseX = x;
+                this.baseY = y;
+                this.density = (Math.random() * 30) + 1;
+            }
+
+            draw() {
+                this.system.ctx.beginPath();
+                this.system.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                this.system.ctx.fillStyle = this.color;
+                this.system.ctx.fill();
+            }
+
+            update() {
+                // Interacción con el ratón
+                if (this.system.mouse.x != null) {
+                    let dx = this.system.mouse.x - this.x;
+                    let dy = this.system.mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    let forceDirectionX = dx / distance;
+                    let forceDirectionY = dy / distance;
+                    let maxDistance = this.system.mouse.radius;
+                    let force = (maxDistance - distance) / maxDistance;
+                    let directionX = forceDirectionX * force * this.density;
+                    let directionY = forceDirectionY * force * this.density;
+
+                    if (distance < maxDistance) {
+                        this.x -= directionX;
+                        this.y -= directionY;
+                    } else {
+                        // Volver lentamente a la posición base si el ratón se aleja
+                        if (this.x !== this.baseX) {
+                            let dx = this.x - this.baseX;
+                            this.x -= dx / 50;
+                        }
+                        if (this.y !== this.baseY) {
+                            let dy = this.y - this.baseY;
+                            this.y -= dy / 50;
+                        }
+                    }
+                }
+
+                // Movimiento normal
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.baseX += this.speedX;
+                this.baseY += this.speedY;
+
+                // Rebotar en los bordes
+                if (this.x < 0 || this.x > this.system.canvas.width) {
+                    this.speedX = -this.speedX;
+                    this.baseX = this.x; // Actualizar base al rebotar
+                }
+                if (this.y < 0 || this.y > this.system.canvas.height) {
+                    this.speedY = -this.speedY;
+                    this.baseY = this.y;
+                }
+            }
+        }
+
+        window.onload = function() {
+            // Partículas Naranjas (255, 200, 150 es un rgb base para tonos cálidos claros)
+            const orangeSystem = new ParticleSystem('particles-orange', '255, 230, 200', true);
+            
+            // Partículas Moradas (200, 150, 255 es un rgb base para tonos fríos claros)
+            const purpleSystem = new ParticleSystem('particles-purple', '230, 200, 255', false);
+        };
+    </script>
+</body>
+</html>
